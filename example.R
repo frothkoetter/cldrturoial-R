@@ -124,9 +124,18 @@ library(sparklyr)
 # Spark. This example connects to Spark on YARN and gives
 # a name to the Spark application:
 
+config=spark_config()
+# sys.setenv("SPARK_MEM" = "200G")
+#config$`sparklyr.shell.driver-memory` <- "2G"
+# config$sparklyr.cores.local <- "32"
+config$spark.dynamicAllocation.enabled <- TRUE  
+config$spark.shuffle.service.enabled <- TRUE
+# config$spark.memory.fraction <- 0.9
+
 spark <- spark_connect(
   master = "yarn",
-  app_name = "cdsw-training"
+  app_name = "cdsw-training",
+  config = config
 )
 
 # Now you can use the connection object named `spark` to
